@@ -18,6 +18,7 @@ import { MovieIcon } from "../../svg";
 //import BeyondEarth from "../../assets/thumbnails/beyond-earth/trending/small.jpg";
 import axios from "axios";
 import { Movie } from "../types";
+import AboutMovie from "../../components/MovieInfo";
 
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
@@ -106,83 +107,12 @@ const Trending = () => {
                   style={{ borderRadius: "8px" }}
                   src={`http://localhost:3000/movie/${r.thumbnail.regular.small}`}
                 ></img>
-                <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: "6px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      component="span"
-                      sx={{
-                        color: "#fff",
-                        fontFamily: "Outfit",
-                        fontSize: "11px",
-                        fontWeight: 300,
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {r.year}
-                    </Typography>
-                    <Box
-                      sx={{
-                        width: "2px",
-                        height: "2px",
-                        backgroundColor: "#ffffff",
-                      }}
-                    ></Box>
-                    {/*<MovieIcon category={r.category}></MovieIcon>*/}
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <MovieIcon category={r.category}></MovieIcon>
-                      <Typography
-                        component="p"
-                        sx={{
-                          color: "#fff",
-                          fontFamily: "Outfit",
-                          fontSize: "11px",
-                          fontWeight: 300,
-                          lineHeight: "normal",
-                        }}
-                      >
-                        {r.category}
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      sx={{
-                        width: "2px",
-                        height: "2px",
-                        backgroundColor: "#ffffff",
-                      }}
-                    ></Box>
-                    <Typography
-                      component="span"
-                      sx={{
-                        color: "#fff",
-                        fontFamily: "Outfit",
-                        fontSize: "11px",
-                        fontWeight: 300,
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {r.rating}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    component="h3"
-                    sx={{
-                      color: "#FFF",
-                      fontFamily: "Outfit",
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      lineHeight: "normal",
-                    }}
-                  >
-                    {r.title}
-                  </Typography>
-                </Box>
+                <AboutMovie
+                  category={r.category}
+                  year={r.year}
+                  title={r.title}
+                  rating={r.rating}
+                ></AboutMovie>
               </ImageListItem>
             ))}
           </RecomendedImages>
