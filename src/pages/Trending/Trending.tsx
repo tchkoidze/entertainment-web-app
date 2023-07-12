@@ -9,8 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+//import { SvgIcon as MuiSvgIcon } from "@mui/material";
 
 import styled from "styled-components";
+//import MovieIcon from "./index";
+import { MovieIcon } from "../../svg";
 
 //import BeyondEarth from "../../assets/thumbnails/beyond-earth/trending/small.jpg";
 import axios from "axios";
@@ -19,6 +22,7 @@ import { Movie } from "../types";
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [trending, setTrending] = useState<Movie[] | null>([]);
+  const [recommended, setRecommended] = useState<Movie[] | null>([]);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -28,9 +32,14 @@ const Trending = () => {
       console.log(films);
       console.log(response.data);
       const trendings = await response.data.filter(
-        (m: Movie | null) => m && m.isTrending == true
+        (m: Movie | null) => m && m.isTrending === true
       );
       setTrending(trendings);
+      setRecommended(
+        await response.data.filter(
+          (r: Movie | null) => r && r.isTrending === false
+        )
+      );
       /*setTrending(
         await response.data.filter(
           (m: Movie | null) => m && m.isTrending == true
@@ -69,7 +78,7 @@ const Trending = () => {
         {trending && trending.length > 0 && (
           <StyledImageList>
             {trending.map((x) => (
-              <ImageListItem key={x.title}>
+              <ImageListItem key={x.title} sx={{ width: "240px" }}>
                 <ImageListItemBar title={x.title} />
                 <img
                   src={`http://localhost:3000/movie/${x.thumbnail.trending.small}`}
@@ -84,6 +93,100 @@ const Trending = () => {
             trending.length > 0 &&
             trending?.map((x) => <p>{x.title}</p>)}
         </StyledImageList>*/}
+      </Box>
+      <Box>
+        <Typography component="h2" sx={{ color: "#fff" }}>
+          Recommended for you
+        </Typography>
+        {recommended && recommended.length > 0 && (
+          <RecomendedImages>
+            {recommended.map((r) => (
+              <ImageListItem>
+                <img
+                  style={{ borderRadius: "8px" }}
+                  src={`http://localhost:3000/movie/${r.thumbnail.regular.small}`}
+                ></img>
+                <Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "6px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      component="span"
+                      sx={{
+                        color: "#fff",
+                        fontFamily: "Outfit",
+                        fontSize: "11px",
+                        fontWeight: 300,
+                        lineHeight: "normal",
+                      }}
+                    >
+                      {r.year}
+                    </Typography>
+                    <Box
+                      sx={{
+                        width: "2px",
+                        height: "2px",
+                        backgroundColor: "#ffffff",
+                      }}
+                    ></Box>
+                    {/*<MovieIcon category={r.category}></MovieIcon>*/}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <MovieIcon category={r.category}></MovieIcon>
+                      <Typography
+                        component="p"
+                        sx={{
+                          color: "#fff",
+                          fontFamily: "Outfit",
+                          fontSize: "11px",
+                          fontWeight: 300,
+                          lineHeight: "normal",
+                        }}
+                      >
+                        {r.category}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        width: "2px",
+                        height: "2px",
+                        backgroundColor: "#ffffff",
+                      }}
+                    ></Box>
+                    <Typography
+                      component="span"
+                      sx={{
+                        color: "#fff",
+                        fontFamily: "Outfit",
+                        fontSize: "11px",
+                        fontWeight: 300,
+                        lineHeight: "normal",
+                      }}
+                    >
+                      {r.rating}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    component="h3"
+                    sx={{
+                      color: "#FFF",
+                      fontFamily: "Outfit",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      lineHeight: "normal",
+                    }}
+                  >
+                    {r.title}
+                  </Typography>
+                </Box>
+              </ImageListItem>
+            ))}
+          </RecomendedImages>
+        )}
       </Box>
     </Container>
   );
@@ -110,11 +213,20 @@ const StyledImageList = styled(ImageList)`
   overflow-x: scroll;
 
   /* Hide the scrollbar */
+
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  /* Enable horizontal scrolling with mouse movement */
+  -webkit-overflow-scrolling: touch;
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
 
   /* Optional: Add more styles for individual ImageListItems */
   & .MuiImageListItem-root {
@@ -123,4 +235,13 @@ const StyledImageList = styled(ImageList)`
     flex: 0 0 auto;
     margin-right: 8px;
   }
+`;
+
+const RecomendedImages = styled(ImageList)`
+  row-gap: 16px !important;
+  column-gap: 15px !important;
+`;
+
+const Movieimage = styled.img`
+  border-radius: 8px;
 `;
