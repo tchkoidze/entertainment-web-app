@@ -19,6 +19,7 @@ import { Movie } from "../types";
 
 import { AboutMovie } from "../../components/shared";
 import Searcher from "../../components/shared/Searcher";
+import BookmarkedIcon from "../../svg/BookmarkedIcon";
 
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
@@ -98,7 +99,7 @@ const Trending = () => {
         {recommended && recommended.length > 0 && (
           <RecomendedImages>
             {recommended.map((r) => (
-              <ImageListItem>
+              <ImageListItem sx={{ position: "relative" }}>
                 <img
                   style={{ borderRadius: "8px" }}
                   src={`http://localhost:3000/movie/${r.thumbnail.regular.small}`}
@@ -109,6 +110,7 @@ const Trending = () => {
                   title={r.title}
                   rating={r.rating}
                 ></AboutMovie>
+                <BookmarkedIcon bookmarked={r.isBookmarked}></BookmarkedIcon>
               </ImageListItem>
             ))}
           </RecomendedImages>

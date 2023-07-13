@@ -30,7 +30,7 @@ export default function ButtonAppBar() {
             </SvgIcon>
           </IconButton>
           <Box sx={{ display: "flex", gap: "10px" }}>
-            <Link to={"/tending"}>
+            <Link to={"/trending"}>
               <SvgIcon>
                 <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                   <path
