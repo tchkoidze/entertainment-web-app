@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { MovieIcon } from "../svg";
+import { MovieIcon } from "../../svg";
 import React from "react";
 
 interface MovieIconProps {

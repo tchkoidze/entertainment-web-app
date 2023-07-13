@@ -9,16 +9,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-//import { SvgIcon as MuiSvgIcon } from "@mui/material";
 
 import styled from "styled-components";
 //import MovieIcon from "./index";
-import { MovieIcon } from "../../svg";
+//import { MovieIcon } from "../../svg";
 
-//import BeyondEarth from "../../assets/thumbnails/beyond-earth/trending/small.jpg";
 import axios from "axios";
 import { Movie } from "../types";
-import AboutMovie from "../../components/MovieInfo";
+
+import { AboutMovie } from "../../components/shared";
+import Searcher from "../../components/shared/Searcher";
 
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
@@ -51,7 +51,7 @@ const Trending = () => {
   }, []);
   return (
     <Container>
-      <Box display={"flex"} alignItems={"center"}>
+      {/*<Box display={"flex"} alignItems={"center"}>
         <SvgIcon>
           <svg
             width="32"
@@ -70,8 +70,9 @@ const Trending = () => {
           name="search"
           placeholder="Search for movies or TV series"
           color="primary"
-        ></Search>
-      </Box>
+        />
+  </Box>*/}
+      <Searcher />
       <Box>
         <Typography component="h1" sx={{ color: "#fff" }}>
           Trending
@@ -89,11 +90,6 @@ const Trending = () => {
             ))}
           </StyledImageList>
         )}
-        {/*<StyledImageList>
-          {trending &&
-            trending.length > 0 &&
-            trending?.map((x) => <p>{x.title}</p>)}
-        </StyledImageList>*/}
       </Box>
       <Box>
         <Typography component="h2" sx={{ color: "#fff" }}>
@@ -130,12 +126,6 @@ const Search = styled(TextField)`
     width: 228px;
   }
 `;
-
-/*const TrendingList = styled(ImageList)`
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-`;*/
 
 const StyledImageList = styled(ImageList)`
   display: flex !important;
