@@ -5,21 +5,18 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  SvgIcon,
   TextField,
   Typography,
 } from "@mui/material";
 
 import styled from "styled-components";
-//import MovieIcon from "./index";
-//import { MovieIcon } from "../../svg";
 
 import axios from "axios";
 import { Movie } from "../types";
 
 import { AboutMovie } from "../../components/shared";
 import Searcher from "../../components/shared/Searcher";
-import BookmarkedIcon from "../../svg/BookmarkedIcon";
+import { BookmarkedIcon } from "../../svg";
 
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
@@ -162,8 +159,4 @@ const StyledImageList = styled(ImageList)`
 const RecomendedImages = styled(ImageList)`
   row-gap: 16px !important;
   column-gap: 15px !important;
-`;
-
-const Movieimage = styled.img`
-  border-radius: 8px;
 `;
