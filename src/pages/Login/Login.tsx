@@ -6,26 +6,45 @@ import TextField from "@mui/material/TextField";
 //import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import { SvgIcon } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import loginSchema from "../../loginSchema";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function LogIn() {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(loginSchema) });
+
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = (
+    data
+  ) => {
+    console.log(45);
+    console.log(data);
+    navigate("/trending");
+  };
+
+  /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
-  };
+  };*/
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -65,11 +84,12 @@ export default function SignIn() {
             </Login>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               noValidate
               sx={{ mt: 1 }}
             >
               <InputField
+                {...register("email")}
                 margin="normal"
                 variant="standard"
                 required
@@ -79,8 +99,12 @@ export default function SignIn() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={!!errors.email}
+                //helperText={errors.email && errors.email.message}
+                helperText={String(errors.email?.message)}
               />
               <InputField
+                {...register("password")}
                 margin="normal"
                 variant="standard"
                 required
@@ -90,6 +114,10 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={!!errors.password}
+                //helperText={errors.password && errors.password.message}
+                //helperText={errors.password?.message}
+                helperText={String(errors.password?.message)}
               />
 
               <LoginBtn
@@ -100,14 +128,14 @@ export default function SignIn() {
               >
                 Login to your account
               </LoginBtn>
-              <Grid container justifyContent={"center"}>
+              {/*<Grid container justifyContent={"center"}>
                 <Grid item>
                   <SignupLInk to={"/signup"}>
                     Don't have an account?
                     <SignUpText> Sign Up</SignUpText>
                   </SignupLInk>
                 </Grid>
-              </Grid>
+          </Grid>*/}
             </Box>
           </Box>
         </FormContainer>

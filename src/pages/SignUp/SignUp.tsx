@@ -12,12 +12,19 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import { SvgIcon } from "@mui/material";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { red } from "@mui/material/colors";
+import loginSchema from "../../loginSchema";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(loginSchema) });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -70,6 +77,7 @@ export default function SignIn() {
               sx={{ mt: 1 }}
             >
               <InputField
+                {...register("email")}
                 margin="normal"
                 variant="standard"
                 required
@@ -80,8 +88,11 @@ export default function SignIn() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={!!errors.email}
+                helperText={String(errors.email?.message)}
               />
               <InputField
+                {...register("password")}
                 margin="normal"
                 variant="standard"
                 required
@@ -92,6 +103,8 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={!!errors.password}
+                helperText={String(errors.password?.message)}
               />
               <InputField
                 margin="normal"
