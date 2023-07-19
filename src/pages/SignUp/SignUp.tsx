@@ -15,7 +15,8 @@ import { SvgIcon } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { red } from "@mui/material/colors";
-import loginSchema from "../../loginSchema";
+//import loginSchema from "../../loginSchema";
+import { signupSchema } from "../../Schemas";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -23,16 +24,26 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const {
     register,
+    handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(loginSchema) });
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  } = useForm({ resolver: yupResolver(signupSchema) });
+
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = (
+    data
+  ) => {
+    console.log(45);
+    console.log(data);
+    //navigate("/trending");
+  };
+
+  /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
-  };
+  };*/
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -72,7 +83,7 @@ export default function SignIn() {
             </Login>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               noValidate
               sx={{ mt: 1 }}
             >
@@ -89,7 +100,9 @@ export default function SignIn() {
                 autoComplete="email"
                 autoFocus
                 error={!!errors.email}
-                helperText={String(errors.email?.message)}
+                helperText={
+                  errors.email?.message && String(errors.email?.message)
+                }
               />
               <InputField
                 {...register("password")}
@@ -104,18 +117,27 @@ export default function SignIn() {
                 id="password"
                 autoComplete="current-password"
                 error={!!errors.password}
-                helperText={String(errors.password?.message)}
+                helperText={
+                  errors.password?.message && String(errors.password?.message)
+                }
               />
               <InputField
+                {...register("repeatPassword")}
                 margin="normal"
                 variant="standard"
                 required
                 fullWidth
-                name="password"
+                name="repeatPassword"
                 placeholder="Repeat Password"
                 type="password"
                 id="repeatPassword"
                 autoComplete="current-password"
+                error={!!errors.repeatPassword}
+                // helperText={String(errors.repeatPassword?.message)}
+                helperText={
+                  errors.repeatPassword?.message &&
+                  String(errors.repeatPassword?.message)
+                }
                 sx={{ caretColor: red }}
               />
               <LoginBtn
