@@ -16,11 +16,14 @@ import { SvgIcon } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginSchema from "../../loginSchema";
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function LogIn() {
+  const [apiError, setApiError] = React.useState<string | null>(null);
+
   const {
     handleSubmit,
     register,
@@ -29,22 +32,36 @@ export default function LogIn() {
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<{ email: string; password: string }> = (
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
     data
   ) => {
     console.log(45);
     console.log(data);
-    navigate("/trending");
-  };
+    //navigate("/trending");
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        email: data.email,
+        password: data.password,
+      });
+      console.log(data.email);
+      console.log(response);
 
-  /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };*/
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Login successful");
+
+        navigate("/trending");
+      } else {
+        // Handle other status codes (optional)
+        console.log("Login failed with status:", response.status);
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.message);
+      setApiError(error.response.data.message);
+      //setApiError();
+      return error;
+    }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -95,13 +112,13 @@ export default function LogIn() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                placeholder="Email Address"
                 name="email"
                 autoComplete="email"
                 autoFocus
                 error={!!errors.email}
-                //helperText={errors.email && errors.email.message}
-                helperText={String(errors.email?.message)}
+                helperText={errors.email && errors.email.message}
+                //helperText={String(errors.email?.message)}
               />
               <InputField
                 {...register("password")}
@@ -110,16 +127,26 @@ export default function LogIn() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                placeholder="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
                 error={!!errors.password}
-                //helperText={errors.password && errors.password.message}
+                helperText={errors.password && errors.password.message}
                 //helperText={errors.password?.message}
-                helperText={String(errors.password?.message)}
+                //helperText={String(errors.password?.message)}
               />
-
+              {apiError ? (
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "0.75rem",
+                    lineHeight: "1.6rem",
+                  }}
+                >
+                  {apiError}
+                </p>
+              ) : null}
               <LoginBtn
                 type="submit"
                 fullWidth
@@ -128,14 +155,14 @@ export default function LogIn() {
               >
                 Login to your account
               </LoginBtn>
-              {/*<Grid container justifyContent={"center"}>
+              <Grid container justifyContent={"center"}>
                 <Grid item>
                   <SignupLInk to={"/signup"}>
                     Don't have an account?
                     <SignUpText> Sign Up</SignUpText>
                   </SignupLInk>
                 </Grid>
-          </Grid>*/}
+              </Grid>
             </Box>
           </Box>
         </FormContainer>

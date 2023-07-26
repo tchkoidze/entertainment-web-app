@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { red } from "@mui/material/colors";
 //import loginSchema from "../../loginSchema";
 import { signupSchema } from "../../Schemas";
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -28,12 +29,33 @@ export default function SignIn() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema) });
 
-  const onSubmit: SubmitHandler<{ email: string; password: string }> = (
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
     data
   ) => {
     console.log(45);
     console.log(data);
     //navigate("/trending");
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/signup", {
+        email: data.email,
+        password: data.password,
+      });
+      console.log(data.email);
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Signup successful");
+        navigate("/trending");
+        // Perform any additional actions or navigate to the next page here
+      } else {
+        // Handle other status codes (optional)
+        console.log("Signup failed with status:", response.status);
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +66,16 @@ export default function SignIn() {
       password: data.get("password"),
     });
   };*/
-
+  /*const signup = async (info) => {
+    try {
+      await axios.post("http://localhost:3000/api/signup", {
+        email: info.email,
+      });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };*/
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
