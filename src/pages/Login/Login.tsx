@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginSchema from "../../loginSchema";
 import axios from "axios";
+import { setCookie } from "react-use-cookie";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -48,7 +49,7 @@ export default function LogIn() {
 
       if (response.status >= 200 && response.status < 300) {
         console.log("Login successful");
-
+        setCookie("token", response.data.token, { days: 1 });
         navigate("/trending");
       } else {
         // Handle other status codes (optional)

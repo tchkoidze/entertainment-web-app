@@ -12,14 +12,18 @@ import Searcher from "../../components/shared/Searcher";
 import { Movie } from "../types";
 import { AboutMovie } from "../../components/shared";
 import { BookmarkedIcon } from "../../svg";
+import { getCookie } from "react-use-cookie";
 
 const TVSeries = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [tvseries, setTvseries] = useState<Movie[] | null>([]);
+  const token = getCookie("token");
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/api/movies");
+      const response = await axios.get("http://localhost:3000/api/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setfilms(response.data);
       console.log(films);
