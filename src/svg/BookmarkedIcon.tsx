@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, SvgIcon } from "@mui/material";
-import styled from "styled-components";
+//import styled from "styled-components";
 
 interface BookmarkedIconProps {
   bookmarked: boolean;
@@ -54,7 +54,7 @@ const BookmarkedIcon: React.FC<BookmarkedIconProps> = ({ bookmarked }) => {
 
 export default BookmarkedIcon;
 
-const BookmarkedSvg = styled(SvgIcon)`
+/*const BookmarkedSvg = styled(SvgIcon)`
   position: absolute;
   display: flex !important;
   align-items: center !important;
@@ -64,4 +64,4 @@ const BookmarkedSvg = styled(SvgIcon)`
   background-color: var(--darkBlue);
   opacity: 0.500646710395813;
   border-radius: 32px;
-`;
+`;*/
