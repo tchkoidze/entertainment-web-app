@@ -5,7 +5,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  TextField,
   Typography,
 } from "@mui/material";
 
@@ -119,12 +118,12 @@ const Trending = () => {
 
 export default Trending;
 
-const Search = styled(TextField)`
+/*const Search = styled(TextField)`
   .MuiInputBase-input {
     color: rgba(255, 255, 255, 0.5);
     width: 228px;
   }
-`;
+`;*/
 
 const StyledImageList = styled(ImageList)`
   display: flex !important;
