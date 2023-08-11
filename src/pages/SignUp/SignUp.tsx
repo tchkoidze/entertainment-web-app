@@ -36,17 +36,17 @@ export default function SignIn() {
   ) => {
     console.log(45);
     console.log(data);
-    //navigate("/trending");
 
     try {
       const response = await axios.post("http://localhost:3000/api/signup", {
         email: data.email,
         password: data.password,
+        backLink: "http://localhost:5173/",
       });
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
         console.log("Signup successful");
-        navigate("/trending");
+
         // Perform any additional actions or navigate to the next page here
       } else {
         // Handle other status codes (optional)
