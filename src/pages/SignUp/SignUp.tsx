@@ -1,4 +1,4 @@
-import * as React from "react";
+//import * as React from "react";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,21 +12,68 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import { SvgIcon } from "@mui/material";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { red } from "@mui/material/colors";
+//import loginSchema from "../../loginSchema";
+import { signupSchema } from "../../Schemas";
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(signupSchema) });
+
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
+    data
+  ) => {
+    console.log(45);
+    console.log(data);
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/signup", {
+        email: data.email,
+        password: data.password,
+        backLink: "http://localhost:5173/",
+      });
+      console.log(data.email);
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Signup successful");
+
+        // Perform any additional actions or navigate to the next page here
+      } else {
+        // Handle other status codes (optional)
+        console.log("Signup failed with status:", response.status);
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
+  /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
-  };
-
+  };*/
+  /*const signup = async (info) => {
+    try {
+      await axios.post("http://localhost:3000/api/signup", {
+        email: info.email,
+      });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };*/
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
@@ -65,11 +112,12 @@ export default function SignIn() {
             </Login>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               noValidate
               sx={{ mt: 1 }}
             >
               <InputField
+                {...register("email")}
                 margin="normal"
                 variant="standard"
                 required
@@ -80,8 +128,13 @@ export default function SignIn() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={!!errors.email}
+                helperText={
+                  errors.email?.message && String(errors.email?.message)
+                }
               />
               <InputField
+                {...register("password")}
                 margin="normal"
                 variant="standard"
                 required
@@ -92,17 +145,28 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={!!errors.password}
+                helperText={
+                  errors.password?.message && String(errors.password?.message)
+                }
               />
               <InputField
+                {...register("repeatPassword")}
                 margin="normal"
                 variant="standard"
                 required
                 fullWidth
-                name="password"
+                name="repeatPassword"
                 placeholder="Repeat Password"
                 type="password"
                 id="repeatPassword"
                 autoComplete="current-password"
+                error={!!errors.repeatPassword}
+                // helperText={String(errors.repeatPassword?.message)}
+                helperText={
+                  errors.repeatPassword?.message &&
+                  String(errors.repeatPassword?.message)
+                }
                 sx={{ caretColor: red }}
               />
               <LoginBtn

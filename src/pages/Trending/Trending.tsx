@@ -16,15 +16,19 @@ import { Movie } from "../types";
 import { AboutMovie } from "../../components/shared";
 import Searcher from "../../components/shared/Searcher";
 import { BookmarkedIcon } from "../../svg";
+import { getCookie } from "react-use-cookie";
 
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [trending, setTrending] = useState<Movie[] | null>([]);
   const [recommended, setRecommended] = useState<Movie[] | null>([]);
+  const token = getCookie("token");
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/api/movies");
+      const response = await axios.get("http://localhost:3000/api/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setfilms(response.data);
       console.log(films);
@@ -95,7 +99,7 @@ const Trending = () => {
         {recommended && recommended.length > 0 && (
           <RecomendedImages>
             {recommended.map((r) => (
-              <ImageListItem sx={{ position: "relative" }}>
+              <ImageListItem key={r.title} sx={{ position: "relative" }}>
                 <img
                   style={{ borderRadius: "8px" }}
                   src={`http://localhost:3000/movie/${r.thumbnail.regular.small}`}

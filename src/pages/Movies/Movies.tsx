@@ -12,14 +12,21 @@ import Searcher from "../../components/shared/Searcher";
 import { Movie } from "../types";
 import { AboutMovie } from "../../components/shared";
 import { BookmarkedIcon } from "../../svg";
+import { getCookie } from "react-use-cookie";
 
 const Movies = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [movie, setMovie] = useState<Movie[] | null>([]);
+  const token = getCookie("token");
+  console.log(token);
+  console.log(23);
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/api/movies");
+      console.log(token);
+      const response = await axios.get("http://localhost:3000/api/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setfilms(response.data);
       console.log(films);
@@ -32,7 +39,7 @@ const Movies = () => {
       );
     };
     getMovies();
-  }, []);
+  }, [token]);
 
   return (
     <Container>

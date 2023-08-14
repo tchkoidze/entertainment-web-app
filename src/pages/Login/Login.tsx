@@ -6,25 +6,62 @@ import TextField from "@mui/material/TextField";
 //import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import { SvgIcon } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import loginSchema from "../../loginSchema";
+import axios from "axios";
+import { setCookie } from "react-use-cookie";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+export default function LogIn() {
+  const [apiError, setApiError] = React.useState<string | null>(null);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(loginSchema) });
+
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
+    data
+  ) => {
+    console.log(45);
+    console.log(data);
+    //navigate("/trending");
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        email: data.email,
+        password: data.password,
+      });
+      console.log(data.email);
+      console.log(response);
+
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Login successful");
+        setCookie("token", response.data.token, { days: 1 });
+        navigate("/trending");
+      } else {
+        // Handle other status codes (optional)
+        console.log("Login failed with status:", response.status);
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.message);
+      setApiError(error.response.data.message);
+      //setApiError();
+      return error;
+    }
   };
 
   return (
@@ -65,33 +102,52 @@ export default function SignIn() {
             </Login>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               noValidate
               sx={{ mt: 1 }}
             >
               <InputField
+                {...register("email")}
                 margin="normal"
                 variant="standard"
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                placeholder="Email Address"
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={!!errors.email}
+                helperText={errors.email && errors.email.message}
+                //helperText={String(errors.email?.message)}
               />
               <InputField
+                {...register("password")}
                 margin="normal"
                 variant="standard"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                placeholder="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={!!errors.password}
+                helperText={errors.password && errors.password.message}
+                //helperText={errors.password?.message}
+                //helperText={String(errors.password?.message)}
               />
-
+              {apiError ? (
+                <p
+                  style={{
+                    color: "red",
+                    fontSize: "0.75rem",
+                    lineHeight: "1.6rem",
+                  }}
+                >
+                  {apiError}
+                </p>
+              ) : null}
               <LoginBtn
                 type="submit"
                 fullWidth
