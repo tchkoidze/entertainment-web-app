@@ -14,10 +14,12 @@
   --white: #ffffff;
 }
 
-html,
-body {
+html {
   width: 100%;
   min-height: 100%;
+}
+body {
+  height: 100%;
 }
 
 #root {
