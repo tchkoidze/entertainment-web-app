@@ -36,7 +36,7 @@ export default function SignIn() {
     console.log(data);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/signup", {
+      const response = await axios.post("https://multi-step-api-da0808a28bdb.herokuapp.com/api/signup", {
         email: data.email,
         password: data.password,
         backLink: "https://entertainment-web-cxocb4b7z-tchkoidze.vercel.app/",
