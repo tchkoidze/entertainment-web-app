@@ -39,7 +39,7 @@ export default function SignIn() {
       const response = await axios.post("http://localhost:3000/api/signup", {
         email: data.email,
         password: data.password,
-        backLink: "http://localhost:5173/",
+        backLink: "https://entertainment-web-cxocb4b7z-tchkoidze.vercel.app/",
       });
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
