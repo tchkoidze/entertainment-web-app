@@ -27,6 +27,7 @@ const Trending = () => {
   const token = getCookie("token");
 
   useEffect(() => {
+    console.log("token: ", token);
     const getMovies = async () => {
       const response = await axios.get(`${BASE_URL}movies`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -35,14 +36,12 @@ const Trending = () => {
       setfilms(response.data);
       console.log(films);
       console.log(response.data);
-      const trendings = await response.data.filter(
+      const trendings = response.data.filter(
         (m: Movie | null) => m && m.isTrending === true
       );
       setTrending(trendings);
       setRecommended(
-        await response.data.filter(
-          (r: Movie | null) => r && r.isTrending === false
-        )
+        response.data.filter((r: Movie | null) => r && r.isTrending === false)
       );
       /*setTrending(
         await response.data.filter(
