@@ -14,6 +14,8 @@ import { AboutMovie } from "../../components/shared";
 import { BookmarkedIcon } from "../../svg";
 import { getCookie } from "react-use-cookie";
 
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
 const BookMarked = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [movie, setMovie] = useState<Movie[] | null>([]);
@@ -21,7 +23,7 @@ const BookMarked = () => {
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/api/movies", {
+      const response = await axios.get(`${BASE_URL}movies`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

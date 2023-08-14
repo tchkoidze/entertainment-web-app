@@ -18,6 +18,8 @@ import Searcher from "../../components/shared/Searcher";
 import { BookmarkedIcon } from "../../svg";
 import { getCookie } from "react-use-cookie";
 
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
 const Trending = () => {
   const [films, setfilms] = useState<Movie[] | null>([]);
   const [trending, setTrending] = useState<Movie[] | null>([]);
@@ -26,7 +28,7 @@ const Trending = () => {
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/api/movies", {
+      const response = await axios.get(`${BASE_URL}movies`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

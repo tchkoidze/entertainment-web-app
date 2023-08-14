@@ -19,6 +19,8 @@ import { red } from "@mui/material/colors";
 import { signupSchema } from "../../Schemas";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -36,7 +38,7 @@ export default function SignIn() {
     console.log(data);
 
     try {
-      const response = await axios.post("https://multi-step-api-da0808a28bdb.herokuapp.com/api/signup", {
+      const response = await axios.post(`${BASE_URL}signup`, {
         email: data.email,
         password: data.password,
         backLink: "https://entertainment-web-cxocb4b7z-tchkoidze.vercel.app/",

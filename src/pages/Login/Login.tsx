@@ -18,6 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import loginSchema from "../../loginSchema";
 import axios from "axios";
 import { setCookie } from "react-use-cookie";
+const BASE_URL = import.meta.env.VITE_BACK_URL;
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -40,7 +41,7 @@ export default function LogIn() {
     console.log(data);
     //navigate("/trending");
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await axios.post(`${BASE_URL}login`, {
         email: data.email,
         password: data.password,
       });
