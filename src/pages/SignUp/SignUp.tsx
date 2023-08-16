@@ -38,11 +38,20 @@ export default function SignIn() {
     console.log(data);
 
     try {
-      const response = await axios.post(`${BASE_URL}signup`, {
-        email: data.email,
-        password: data.password,
-        backLink: "https://entertainment-web-cxocb4b7z-tchkoidze.vercel.app/",
-      });
+      const response = await axios.post(
+        `${BASE_URL}signup`,
+        {
+          email: data.email,
+          password: data.password,
+          backLink: "https://entertainment-web-qkzap29kk-tchkoidze.vercel.app/",
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
         console.log("Signup successful");
