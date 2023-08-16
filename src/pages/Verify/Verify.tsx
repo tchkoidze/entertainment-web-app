@@ -15,7 +15,7 @@ export default function Verify() {
     const verify = async () => {
       try {
         await axios.post(
-          "https://audiophile-r04o.onrender.com/api/verification",
+          "https://entertainment-web-app-api-production-18e2.up.railway.app/api/verification",
           {
             hash,
           }
