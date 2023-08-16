@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Login, Movies, SignUp, TVSeries, Trending } from "./pages";
+import { Login, Movies, SignUp, TVSeries, Trending, Verify } from "./pages";
 
 import ButtonAppBar from "./layouts/Header";
 import BookMarked from "./pages/Bookmarked/BookMarked";
+//import { Verify } from "./pages/Verify";
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ["/", "/signup"];
+  const hideHeaderRoutes = ["/", "/signup", "/verify"];
   const shouldShowHeader = !hideHeaderRoutes.includes(location.pathname);
 
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/verify" element={<Verify />} />
         <Route path="/trending" element={<Trending />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/tvseries" element={<TVSeries />} />
