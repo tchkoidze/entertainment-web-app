@@ -43,7 +43,7 @@ export default function SignIn() {
         {
           email: data.email,
           password: data.password,
-          backLink: "https://entertainment-web-2l3d5y8xw-tchkoidze.vercel.app/",
+          backLink: "https://entertainment-web-2l3d5y8xw-tchkoidze.vercel.app/verify",
         },
         {
           headers: {
