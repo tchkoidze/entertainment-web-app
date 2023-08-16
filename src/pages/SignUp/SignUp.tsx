@@ -44,7 +44,7 @@ export default function SignIn() {
           email: data.email,
           password: data.password,
           backLink:
-            "https://entertainment-web-app-api-production-18e2.up.railway.app/verify",
+            "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app//verify",
         },
         {
           headers: {
