@@ -41,7 +41,7 @@ export default function LogIn() {
     console.log(data);
     //navigate("/trending");
     try {
-      const response = await axios.post(`${BASE_URL}login`, {
+      const response = await axios.post(`${BASE_URL}/api/login`, {
         email: data.email,
         password: data.password,
       });

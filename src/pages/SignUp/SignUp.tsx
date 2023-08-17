@@ -1,5 +1,3 @@
-//import * as React from "react";
-
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -18,6 +16,7 @@ import { red } from "@mui/material/colors";
 //import loginSchema from "../../loginSchema";
 import { signupSchema } from "../../Schemas";
 import axios from "axios";
+import { useState } from "react";
 
 const BASE_URL = import.meta.env.VITE_BACK_URL;
 
@@ -31,6 +30,8 @@ export default function SignIn() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema) });
 
+  const [confirmed, setConfirmd] = useState<boolean | null>();
+
   const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
     data
   ) => {
@@ -39,7 +40,7 @@ export default function SignIn() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}signup`,
+        `${BASE_URL}/api/signup`,
         {
           email: data.email,
           password: data.password,
@@ -55,6 +56,7 @@ export default function SignIn() {
       );
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
+        setConfirmd(true);
         console.log("Signup successful");
 
         // Perform any additional actions or navigate to the next page here
@@ -68,24 +70,6 @@ export default function SignIn() {
     }
   };
 
-  /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };*/
-  /*const signup = async (info) => {
-    try {
-      await axios.post("http://localhost:3000/api/signup", {
-        email: info.email,
-      });
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };*/
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
@@ -200,6 +184,9 @@ export default function SignIn() {
             </Box>
           </Box>
         </FormContainerSign>
+        <Typography variant="body1" sx={{ color: "red" }}>
+          {confirmed ? "Please check your mail for confirmation" : ""}
+        </Typography>
       </Box>
     </ThemeProvider>
   );

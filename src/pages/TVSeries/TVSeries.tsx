@@ -23,7 +23,7 @@ const TVSeries = () => {
 
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get(`${BASE_URL}movies`, {
+      const response = await axios.get(`${BASE_URL}/api/movies`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

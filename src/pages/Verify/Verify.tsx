@@ -6,6 +6,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
 export default function Verify() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -14,12 +16,9 @@ export default function Verify() {
   useEffect(() => {
     const verify = async () => {
       try {
-        await axios.post(
-          "https://entertainment-web-app-api-production-18e2.up.railway.app/api/verification",
-          {
-            hash,
-          }
-        );
+        await axios.post(`${BASE_URL}/api/verification`, {
+          hash,
+        });
       } catch (error) {
         console.error("An error occurred during verification:", error);
         return error;
