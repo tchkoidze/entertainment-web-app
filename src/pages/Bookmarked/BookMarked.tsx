@@ -51,7 +51,7 @@ const BookMarked = () => {
               <ImageListItem key={m.title}>
                 <img
                   style={{ borderRadius: "8px" }}
-                  src={`http://localhost:3000/movie/${m.thumbnail.regular.small}`}
+                  src={`${BASE_URL}/movie/${m.thumbnail.regular.small}`}
                 ></img>
                 <AboutMovie
                   category={m.category}

@@ -85,7 +85,7 @@ const Trending = () => {
               <ImageListItem key={x.title} sx={{ width: "240px" }}>
                 <ImageListItemBar title={x.title} />
                 <img
-                  src={`http://localhost:3000/movie/${x.thumbnail.trending.small}`}
+                  src={`${BASE_URL}/movie/${x.thumbnail.trending.small}`}
                   alt=""
                 />
               </ImageListItem>
@@ -103,7 +103,7 @@ const Trending = () => {
               <ImageListItem key={r.title} sx={{ position: "relative" }}>
                 <img
                   style={{ borderRadius: "8px" }}
-                  src={`http://localhost:3000/movie/${r.thumbnail.regular.small}`}
+                  src={`${BASE_URL}/movie/${r.thumbnail.regular.small}`}
                 ></img>
                 <AboutMovie
                   category={r.category}
