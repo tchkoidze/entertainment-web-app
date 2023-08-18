@@ -54,7 +54,7 @@ const P = styled.p`
   color: #ead5d5;
 `;
 const Div = styled.div`
-  margin: 25%;
+  //margin: 25%;
   display: flex;
   flex-direction: column;
   gap: 30px;

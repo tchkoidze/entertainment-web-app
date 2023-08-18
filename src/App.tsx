@@ -30,7 +30,7 @@ function App() {
 export default App;
 
 const Main = styled.main`
-  background-color: var(--dark);
+  //background-color: var(--dark);
   width: 100%;
   height: 100%;
 `;
