@@ -45,7 +45,7 @@ export default function SignIn() {
           email: data.email,
           password: data.password,
           backLink:
-            "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app//verify",
+            "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify",
         },
         {
           headers: {
@@ -164,6 +164,19 @@ export default function SignIn() {
                   String(errors.repeatPassword?.message)
                 }
                 sx={{ caretColor: red }}
+              />
+              <InputField
+                margin="normal"
+                variant="standard"
+                required
+                fullWidth
+                id="file"
+                //label="Email Address"
+                placeholder="Email Address"
+                name="file"
+                type="file"
+                autoFocus
+                error={!!errors.file}
               />
               <LoginBtn
                 type="submit"

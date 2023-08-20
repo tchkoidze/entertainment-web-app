@@ -4,10 +4,17 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { SvgIcon } from "@mui/material";
+import { Avatar, SvgIcon } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+import avatar from "../assets/favicon-32x32.png";
 
-export default function ButtonAppBar() {
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
+interface ButtonAppBarProps {
+  avatarUrl: string;
+}
+
+export default function ButtonAppBar({ avatarUrl }: ButtonAppBarProps) {
   const location = useLocation();
   console.log(location);
   return (
@@ -83,8 +90,11 @@ export default function ButtonAppBar() {
               </SvgIcon>
             </Link>
           </Box>
-
-          <Button color="inherit">Login</Button>
+          <Box sx={{ display: "flex" }}>
+            <Button color="inherit">Logout</Button>
+            {/*<Avatar alt="avatar" src={avatar} />*/}
+            <Avatar alt="avatar" src={`${BASE_URL}/avatar/${avatarUrl}`} />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

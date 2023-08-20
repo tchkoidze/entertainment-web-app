@@ -23,7 +23,11 @@ const BASE_URL = import.meta.env.VITE_BACK_URL;
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function LogIn() {
+interface LoginProps {
+  setAvatarUrl: (url: string) => void;
+}
+
+export default function LogIn({ setAvatarUrl }: LoginProps) {
   const [apiError, setApiError] = React.useState<string | null>(null);
 
   const {
@@ -45,6 +49,8 @@ export default function LogIn() {
         email: data.email,
         password: data.password,
       });
+      console.log(response.data);
+      setAvatarUrl(response.data.avatar);
       console.log(data.email);
       console.log(response);
 

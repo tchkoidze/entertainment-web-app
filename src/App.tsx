@@ -4,18 +4,21 @@ import { Login, Movies, SignUp, TVSeries, Trending, Verify } from "./pages";
 
 import ButtonAppBar from "./layouts/Header";
 import BookMarked from "./pages/Bookmarked/BookMarked";
+import { useState } from "react";
 //import { Verify } from "./pages/Verify";
 
 function App() {
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+
   const location = useLocation();
   const hideHeaderRoutes = ["/", "/signup", "/verify"];
   const shouldShowHeader = !hideHeaderRoutes.includes(location.pathname);
 
   return (
     <Main>
-      {shouldShowHeader && <ButtonAppBar />}
+      {shouldShowHeader && <ButtonAppBar avatarUrl={avatarUrl} />}
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login setAvatarUrl={setAvatarUrl} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/trending" element={<Trending />} />
