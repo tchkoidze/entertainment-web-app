@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import { Avatar, SvgIcon } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import avatar from "../assets/favicon-32x32.png";
+import cookies from "js-cookie";
 
 const BASE_URL = import.meta.env.VITE_BACK_URL;
 
@@ -17,6 +18,12 @@ interface ButtonAppBarProps {
 export default function ButtonAppBar({ avatarUrl }: ButtonAppBarProps) {
   const location = useLocation();
   console.log(location);
+
+  const logOut = () => {
+    cookies.remove("token");
+    //Cookies.remove("token");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -91,7 +98,9 @@ export default function ButtonAppBar({ avatarUrl }: ButtonAppBarProps) {
             </Link>
           </Box>
           <Box sx={{ display: "flex" }}>
-            <Button color="inherit">Logout</Button>
+            <Button onClick={() => logOut()} color="inherit">
+              Logout
+            </Button>
             {/*<Avatar alt="avatar" src={avatar} />*/}
             <Avatar alt="avatar" src={`${BASE_URL}/avatar/${avatarUrl}`} />
           </Box>
