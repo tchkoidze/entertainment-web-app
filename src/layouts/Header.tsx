@@ -5,9 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Avatar, SvgIcon } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import avatar from "../assets/favicon-32x32.png";
-import cookies from "js-cookie";
+
+import { setCookie } from "react-use-cookie";
 
 const BASE_URL = import.meta.env.VITE_BACK_URL;
 
@@ -18,10 +19,12 @@ interface ButtonAppBarProps {
 export default function ButtonAppBar({ avatarUrl }: ButtonAppBarProps) {
   const location = useLocation();
   console.log(location);
+  const navigate = useNavigate();
 
   const logOut = () => {
-    cookies.remove("token");
+    setCookie("token", "");
     //Cookies.remove("token");
+    navigate("/");
   };
 
   return (

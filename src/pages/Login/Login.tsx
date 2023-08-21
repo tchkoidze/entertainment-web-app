@@ -53,10 +53,10 @@ export default function LogIn({ setAvatarUrl }: LoginProps) {
       setAvatarUrl(response.data.avatar);
       console.log(data.email);
       console.log(response);
-
+      setCookie("token", response.data.token, { days: 1 });
       if (response.status >= 200 && response.status < 300) {
         console.log("Login successful");
-        setCookie("token", response.data.token, { days: 1 });
+        //setCookie("token", response.data.token, { days: 1 });
         navigate("/trending");
       } else {
         // Handle other status codes (optional)
