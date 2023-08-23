@@ -32,28 +32,48 @@ export default function SignIn() {
 
   const [confirmed, setConfirmd] = useState<boolean | null>();
 
-  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
-    data
-  ) => {
+  const onSubmit: SubmitHandler<{
+    email: string;
+    password: string;
+    file: any;
+  }> = async (data) => {
     console.log(45);
     console.log(data);
+    console.log(data.file[0]);
 
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append(
+      "backLink",
+      "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify"
+    );
+    // Append the avatar image to the FormData object
+    formData.append("avatar", data.file[0]);
+    console.log(formData);
     try {
       const response = await axios.post(
         `${BASE_URL}/api/signup`,
+        formData,
         {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        /*{
           email: data.email,
           password: data.password,
           backLink:
             "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify",
-        },
-        {
+        },*/
+        /*{
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-        }
+        }*/
       );
+      console.log(response);
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
         setConfirmd(true);
@@ -166,17 +186,20 @@ export default function SignIn() {
                 sx={{ caretColor: red }}
               />
               <InputField
+                {...register("file")}
                 margin="normal"
                 variant="standard"
                 required
                 fullWidth
                 id="file"
-                //label="Email Address"
-                placeholder="Email Address"
+                placeholder="file"
                 name="file"
                 type="file"
                 autoFocus
                 error={!!errors.file}
+                helperText={
+                  errors.file?.message && String(errors.file?.message)
+                }
               />
               <LoginBtn
                 type="submit"

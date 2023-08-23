@@ -14,17 +14,9 @@ const signupSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), undefined], "Passwords must match")
     .required("Repeat Password is required"),
-  file: yup
-    .mixed()
-    .required("Please select an image to upload")
-    .test("fileType", "Invalid file type. Only images are allowed", (value) => {
-      return (
-        value &&
-        ["image/jpeg", "image/png", "image/svg+xml"].includes(
-          (value as File).type
-        )
-      );
-    }),
+  file: yup.mixed().required("Please select an image to upload"),
 });
 
 export default signupSchema;
+
+//.required("Please select an image to upload")
