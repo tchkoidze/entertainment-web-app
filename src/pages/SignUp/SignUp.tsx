@@ -13,10 +13,10 @@ import { SvgIcon } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { red } from "@mui/material/colors";
-//import loginSchema from "../../loginSchema";
+
 import { signupSchema } from "../../Schemas";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const BASE_URL = import.meta.env.VITE_BACK_URL;
 
@@ -32,14 +32,18 @@ export default function SignIn() {
 
   const [confirmed, setConfirmd] = useState<boolean | null>();
 
+  const [submitClicked, setSubmitClicked] = useState<boolean>();
+
+  const inputAvatar = useRef<HTMLInputElement | null>(null);
+  console.log(submitClicked);
+
   const onSubmit: SubmitHandler<{
     email: string;
     password: string;
-    file: any;
+    //file: any;
   }> = async (data) => {
-    console.log(45);
-    console.log(data);
-    console.log(data.file[0]);
+    setSubmitClicked(true);
+    console.log(submitClicked);
 
     const formData = new FormData();
     formData.append("email", data.email);
@@ -48,31 +52,25 @@ export default function SignIn() {
       "backLink",
       "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify"
     );
-    // Append the avatar image to the FormData object
-    formData.append("avatar", data.file[0]);
-    console.log(formData);
+
+    if (inputAvatar && inputAvatar.current && inputAvatar.current.files) {
+      formData.append("avatar", inputAvatar.current.files[0]);
+      console.log(inputAvatar.current.files);
+      if (
+        inputAvatar.current.files[0].type !== "image/png" &&
+        inputAvatar.current.files[0].type !== "image/jpg" &&
+        inputAvatar.current.files[0].type !== "image/jpeg"
+      ) {
+        return;
+      }
+    }
+
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/signup`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-        /*{
-          email: data.email,
-          password: data.password,
-          backLink:
-            "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify",
-        },*/
-        /*{
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }*/
-      );
+      const response = await axios.post(`${BASE_URL}/api/signup`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response);
       console.log(data.email);
       if (response.status >= 200 && response.status < 300) {
@@ -186,7 +184,7 @@ export default function SignIn() {
                 sx={{ caretColor: red }}
               />
               <InputField
-                {...register("file")}
+                inputRef={inputAvatar}
                 margin="normal"
                 variant="standard"
                 required
@@ -196,9 +194,43 @@ export default function SignIn() {
                 name="file"
                 type="file"
                 autoFocus
-                error={!!errors.file}
+                error={
+                  (submitClicked === true &&
+                    inputAvatar &&
+                    inputAvatar.current &&
+                    inputAvatar.current.files &&
+                    inputAvatar.current.files.length > 0 &&
+                    !(
+                      inputAvatar.current.files[0].type === "image/png" ||
+                      inputAvatar.current.files[0].type === "image/jpg" ||
+                      inputAvatar.current.files[0].type === "image/jpeg"
+                    )) ||
+                  (submitClicked === true &&
+                    inputAvatar &&
+                    inputAvatar.current &&
+                    inputAvatar.current.files &&
+                    inputAvatar.current.files.length === 0) ||
+                  false // Set 'error' to false by default
+                }
                 helperText={
-                  errors.file?.message && String(errors.file?.message)
+                  submitClicked === true &&
+                  inputAvatar &&
+                  inputAvatar.current &&
+                  inputAvatar.current.files &&
+                  inputAvatar.current.files.length > 0 &&
+                  !(
+                    inputAvatar.current.files[0].type === "image/png" ||
+                    inputAvatar.current.files[0].type === "image/jpg" ||
+                    inputAvatar.current.files[0].type === "image/jpeg"
+                  )
+                    ? "Only PNG, JPG, and JPEG files are allowed!"
+                    : submitClicked === true &&
+                      inputAvatar &&
+                      inputAvatar.current &&
+                      inputAvatar.current.files &&
+                      inputAvatar.current.files.length === 0
+                    ? "No File Chosen"
+                    : ""
                 }
               />
               <LoginBtn
@@ -220,8 +252,8 @@ export default function SignIn() {
             </Box>
           </Box>
         </FormContainerSign>
-        <Typography variant="body1" sx={{ color: "red" }}>
-          {confirmed ? "Please check your mail for confirmation" : ""}
+        <Typography variant="body1" sx={{ color: "blue" }}>
+          {confirmed ? "Please check your email for confirmation" : ""}
         </Typography>
       </Box>
     </ThemeProvider>
