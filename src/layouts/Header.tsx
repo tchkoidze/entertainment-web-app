@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Avatar, SvgIcon } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import avatar from "../assets/favicon-32x32.png";
 
 import { setCookie } from "react-use-cookie";
 
