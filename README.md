@@ -22,7 +22,7 @@
 ### Tech Stack
 
 - <img src="readme/react.png" width="25" style="top: 8px" /> React @18.2.0 - front-end framework
-- <img src="readme/material-ui.png" width="25" style="top: 8px" /> Tailwind @3.1.8 - CSS framework
+- <img src="readme/material-ui.png" width="25" style="top: 8px" /> Tailwind @5.13.7 - CSS framework
 - <img src="readme/axios.png" width="25" style="top: 8px" /> Axios @1.1.2 - Promise based HTTP client for the browser and node.js
 
 #
