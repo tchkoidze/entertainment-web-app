@@ -50,7 +50,7 @@ export default function SignIn() {
     formData.append("password", data.password);
     formData.append(
       "backLink",
-      "https://entertainment-web-5jj4mmiyh-tchkoidze.vercel.app/verify"
+      "https://entertainment-web-app-livid.vercel.app/verify"
     );
 
     if (inputAvatar && inputAvatar.current && inputAvatar.current.files) {
